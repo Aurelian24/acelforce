@@ -6,6 +6,8 @@ class Being{
     float stm ; //Speed towards mouse
     float mass;
     
+    float W;
+    float H;
     float hue;
     
     color colorfigura;
@@ -14,33 +16,40 @@ class Being{
     PVector accel;
     boolean edgemode=false;
      
-    PImage img;
+    PShape polygon;
  
-     Being(float _mass,float _vibr, float _x, float _y,color _c,float W,float H){
+     Being(float _mass,float _vibr, float _x, float _y,color _c,float _W,float _H,float _topspeed){
           mass = _mass;
-          topspeed = 10;
+          topspeed = _topspeed;
           size = 35;
           hue = random(255);
           pos = new PVector(_x,_y);
           Speed =  new PVector(0,0);
           accel =  new PVector(0,0);    
           vibr = _vibr;
-          stm = 0.5; //SPEED TOWARDS MOUSE
+          stm = 15; //SPEED TOWARDS MOUSE
           
           colorfigura = _c;
-          img = loadImage("poligono.png");
-          img.resize(parseInt(W),parseInt(H));
+          polygon = loadShape("poligono.svg");
+          polygon.disableStyle();
+           
+           W = _W;
+           H = _H;
+         
     }
    
     void display(){  
-      tint(colorfigura);      
-      checkEdges();
       
+      checkEdges();
       float angle = atan2(Speed.y,Speed.x);
+      
+      fill(255,0,255);
+      stroke(colorfigura);
       pushMatrix();
       translate(pos.x,pos.y);
       rotate(angle);   
-      image(img, 0, 0);
+    
+      shape(polygon, 0, 0,W,H);  // Draw at coordinate (110, 90) at size 100 x 100
       popMatrix();
     }
    
